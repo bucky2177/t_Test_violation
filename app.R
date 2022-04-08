@@ -21,12 +21,12 @@ plotPopulation = function(sampleInput,
   } else if (sampleInput == "beta") { # varianz bei alpha = 2 = beta -> 0.05
     scale_1 = sqrt(sdInput1^2/0.05)
     scale_2 = sqrt(sdInput2^2/0.05)
-    xmax = ceiling(max(scale_1, scale_2)/2) # da später auf 0 zentriert 
+    xmax = ceiling(max(scale_1, scale_2)/2) # da spaeter auf 0 zentriert 
     xmin = -xmax
   } else if (sampleInput == "unif") { # Var(unif) = 1/12 [0,1]
     scale_1 = sqrt(sdInput1^2/(1/12))
     scale_2 = sqrt(sdInput2^2/(1/12))
-    xmax = ceiling(max(scale_1, scale_2)/2) # da später auf 0 zentriert 
+    xmax = ceiling(max(scale_1, scale_2)/2) # da spaeter auf 0 zentriert 
     xmin = -xmax
   }
   
@@ -46,13 +46,13 @@ plotPopulation = function(sampleInput,
   # plot the distributions
   if(sampleInput == "norm" | sampleInput == "unif"){
     plot(c(1,2) ~ c(1,1), xlim = c(xmin, xmax), ty = "l", col = "white",
-         xlab = "mögliche Werte x", 
+         xlab = "moegliche Werte x", 
          ylab = "f(x)", ylim = c(0, max(c(dichte1, dichte2)) + max(c(dichte1, dichte2))*0.3))
     polygon(x = xs, y = dichte1, col = rgb(0,1,0, 0.2))
     polygon(x = xs, y = dichte2, col = rgb(1,0,0, 0.2))
   }else if(sampleInput == "beta"){
     plot(c(1,2) ~ c(1,1), xlim = c(xmin, xmax), ty = "l", col = "white",
-         xlab = "mögliche Werte x", 
+         xlab = "moegliche Werte x", 
          ylab = "f(x)", ylim = c(0, max(c(dichte1, dichte2)) + max(c(dichte1, dichte2))*0.3))
     polygon(x = seq(0-scale_1/2, scale_1/2, length.out = 10000), 
             y = dichte1, col = rgb(0,1,0, 0.2))
@@ -112,7 +112,7 @@ plotSimulation = function(sampleInput,
                       var.equal = TRUE) # t test
       t <- t_obj$statistic # t wert
       p <- t_obj$p.value # p wert
-      return(matrix(c(t, p), nrow = 1, ncol = 2)) # Rückgabe
+      return(matrix(c(t, p), nrow = 1, ncol = 2)) # Rueckgabe
     })
     res = do.call("rbind", res)
     
@@ -124,11 +124,11 @@ plotSimulation = function(sampleInput,
     xs = seq(xmin, xmax, length.out = 10000)
     dichteT = dt(xs, df = dfs)
     # hist(res[,1], xlim = c(xmin, xmax), prob = TRUE, breaks = 100,
-    #      xlab = "mögliche t-Werte", 
+    #      xlab = "moegliche t-Werte", 
     #      ylab = "f(t)", ylim = c(0, max(dichteT) + max(dichteT)*0.3), 
     #      main = "") 
     plot(c(1,2) ~ c(1,1), col = "white", xlim = c(xmin, xmax),
-         xlab = "mögliche t-Werte", 
+         xlab = "moegliche t-Werte", 
          ylab = "f(t)", ylim = c(0, max(dichteT) + max(dichteT)*0.3), 
          main = "") 
     dens = density(res[,1])
@@ -163,8 +163,8 @@ plotSimulation = function(sampleInput,
 
 
 ui <- fluidPage(
-  titlePanel("Auswirkung der Annahmensverletzungen auf das nominelle Alpha-Niveau am Beispiel des t-Tests für 
-             unabhängige Stichproben"),
+  titlePanel("Auswirkung der Annahmensverletzungen auf das nominelle Alpha-Niveau am Beispiel des t-Tests fuer 
+             unabhaengige Stichproben"),
   sidebarLayout(
     
     sidebarPanel(
@@ -179,7 +179,7 @@ ui <- fluidPage(
         min = 5, max = 50, value = 5, step = 5),
       sliderInput(
         "nsInput",
-        h4("Stichprobengröße"),
+        h4("StichprobengroeÃŸe"),
         min = 3, max = 15, value = 3, step = 1),
       selectInput(
         "SampleInput",
