@@ -47,13 +47,14 @@ plotPopulation = function(sampleInput,
   if(sampleInput == "norm" | sampleInput == "unif"){
     plot(c(1,2) ~ c(1,1), xlim = c(xmin, xmax), ty = "l", col = "white",
          xlab = "moegliche Werte x", 
-         ylab = "f(x)", ylim = c(0, max(c(dichte1, dichte2)) + max(c(dichte1, dichte2))*0.3))
+         ylab = "f(x)", ylim = c(0, max(c(dichte1, dichte2)) + max(c(dichte1, dichte2))*0.35),
+         cex.lab = 1.25, cex.axis = 1.25)
     polygon(x = xs, y = dichte1, col = rgb(0,1,0, 0.2))
     polygon(x = xs, y = dichte2, col = rgb(1,0,0, 0.2))
   }else if(sampleInput == "beta"){
     plot(c(1,2) ~ c(1,1), xlim = c(xmin, xmax), ty = "l", col = "white",
          xlab = "moegliche Werte x", 
-         ylab = "f(x)", ylim = c(0, max(c(dichte1, dichte2)) + max(c(dichte1, dichte2))*0.3))
+         ylab = "f(x)", ylim = c(0, max(c(dichte1, dichte2)) + max(c(dichte1, dichte2))*0.35))
     polygon(x = seq(0-scale_1/2, scale_1/2, length.out = 10000), 
             y = dichte1, col = rgb(0,1,0, 0.2))
     polygon(x = seq(0-scale_2/2, scale_2/2, length.out = 10000), 
@@ -61,7 +62,8 @@ plotPopulation = function(sampleInput,
     
   }
   
-  legend("topright", legend = c("Pop1", "Pop2"), col = c(rgb(0,1,0, 0.8), rgb(1,0,0, 0.8)), pch = 15)
+  legend("topright", legend = c("Population 1", "Population 2"), col = c(rgb(0,1,0, 0.8), rgb(1,0,0, 0.8)), pch = 15, 
+         cex = 1.25)
   
   
 }
@@ -129,21 +131,23 @@ plotSimulation = function(sampleInput,
     #      main = "") 
     plot(c(1,2) ~ c(1,1), col = "white", xlim = c(xmin, xmax),
          xlab = "moegliche t-Werte", 
-         ylab = "f(t)", ylim = c(0, max(dichteT) + max(dichteT)*0.3), 
-         main = "") 
+         ylab = "f(t)", ylim = c(0, max(dichteT) + max(dichteT)*0.35), 
+         main = "", cex.lab = 1.25, cex.axis = 1.25) 
     dens = density(res[,1])
     polygon(x = dens$x, y = dens$y, col = "skyblue")
     points(dichteT ~ xs, col = "red", ty = "l", lwd = 2)
-    legend("topright", legend = c("theoretische t-Verteilung", "simulierte t-Werte"), col = c("red", "skyblue"), 
-           lty = 1,)
+    legend("topright", legend = c(paste("theoretische t-Verteilung\ndf =", dfs)
+                                        , "simulierte t-Werte"), col = c("red", "skyblue"), 
+           lty = 1, cex = 1.25)
     
     nomAlpha = mean(res[,2] <= 0.05)
-    mtext(side = 3, paste("% Fehlentscheidungen\n", round(nomAlpha, 4)*100), cex = 1.5)
+    mtext(side = 3, paste("% Fehlentscheidungen\n", round(nomAlpha, 4)*100), cex = 1.5, line = 0.5)
     t_krit = qt(0.975, dfs)
     segments(x0 = -t_krit, y0 = 0, x1 = -t_krit, y1 = 0.1)
     segments(x0 = t_krit, y0 = 0, x1 = t_krit, y1 = 0.1)
-    text(x = -t_krit, y = 0.15, expression(t[krit]))
-    text(x = t_krit, y = 0.15, expression(t[krit]))
+    text(x = -t_krit, y = 0.15, expression(t[krit]), cex = 1.25)
+    text(x = t_krit, y = 0.15, expression(t[krit]), cex = 1.25)
+    #text(x = 0, y = 0.45, paste("t(", dfs, ")", sep = "" ), cex = 1.25, col = "red")
     
   }else{
   
@@ -163,7 +167,7 @@ plotSimulation = function(sampleInput,
 
 
 ui <- fluidPage(
-  titlePanel("Auswirkung der Annahmensverletzungen auf das nominelle Alpha-Niveau am Beispiel des t-Tests fuer 
+  titlePanel("Auswirkung der Annahmensverletzungen auf das nominelle Alpha-Niveau (beim t-Test fuer 
              unabhaengige Stichproben"),
   sidebarLayout(
     
@@ -179,8 +183,8 @@ ui <- fluidPage(
         min = 5, max = 50, value = 5, step = 5),
       sliderInput(
         "nsInput",
-        h4("Stichprobengroeße"),
-        min = 3, max = 15, value = 3, step = 1),
+        h4("Stichprobengroesse"),
+        min = 3, max = 15, value = 7, step = 1),
       selectInput(
         "SampleInput",
         h4("Woraus soll gezogen werden?"),
